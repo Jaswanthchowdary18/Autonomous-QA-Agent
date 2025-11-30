@@ -52,3 +52,18 @@ python -m venv venv
 # Activate the environment (macOS/Linux)
 # source venv/bin/activate
 
+# Run from backend directory
+python app.py
+
+# Open new terminal and navigate to frontend directory
+cd autonomous-qa-agent/frontend
+
+# Install frontend dependencies
+pip install streamlit requests
+
+# Start Streamlit frontend
+streamlit run app.py
+
+
+
+
