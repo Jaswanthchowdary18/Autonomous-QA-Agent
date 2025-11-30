@@ -1,0 +1,306 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>E-Shop Checkout</title>
+    <style>
+        * {
+            box-sizing: border-box;
+            margin: 0;
+            padding: 0;
+            font-family: Arial, sans-serif;
+        }
+        .container {
+            max-width: 800px;
+            margin: 0 auto;
+            padding: 20px;
+        }
+        .section {
+            background: #f9f9f9;
+            padding: 20px;
+            margin-bottom: 20px;
+            border-radius: 8px;
+            border: 1px solid #ddd;
+        }
+        h2 {
+            color: #333;
+            margin-bottom: 15px;
+        }
+        .form-group {
+            margin-bottom: 15px;
+        }
+        label {
+            display: block;
+            margin-bottom: 5px;
+            font-weight: bold;
+        }
+        .required::after {
+            content: " *";
+            color: red;
+        }
+        input[type="text"],
+        input[type="email"],
+        textarea {
+            width: 100%;
+            padding: 10px;
+            border: 1px solid #ddd;
+            border-radius: 4px;
+            font-size: 14px;
+        }
+        input[type="number"] {
+            width: 60px;
+            padding: 5px;
+            border: 1px solid #ddd;
+            border-radius: 4px;
+        }
+        .radio-group {
+            margin: 10px 0;
+        }
+        .radio-group label {
+            display: inline-flex;
+            align-items: center;
+            margin-right: 20px;
+            font-weight: normal;
+        }
+        .radio-group input {
+            margin-right: 5px;
+        }
+        .error {
+            color: #FF0000;
+            font-size: 12px;
+            margin-top: 5px;
+            display: none;
+        }
+        button {
+            background-color: #28a745;
+            color: white;
+            padding: 12px 30px;
+            border: none;
+            border-radius: 4px;
+            font-size: 16px;
+            cursor: pointer;
+        }
+        button:disabled {
+            background-color: #cccccc;
+            cursor: not-allowed;
+        }
+        .success-message {
+            color: #28a745;
+            font-size: 18px;
+            font-weight: bold;
+            margin-top: 20px;
+            display: none;
+        }
+        .cart-item {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 10px 0;
+            border-bottom: 1px solid #eee;
+        }
+        .price {
+            font-weight: bold;
+            color: #333;
+        }
+        .total {
+            font-size: 18px;
+            font-weight: bold;
+            margin-top: 10px;
+            text-align: right;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <h1>E-Shop Checkout</h1>
+        
+        <!-- Cart Summary Section -->
+        <div class="section">
+            <h2>Cart Summary</h2>
+            <div class="cart-item">
+                <span>Product 1</span>
+                <div>
+                    <input type="number" id="qty1" value="1" min="1" max="10" data-price="29.99">
+                    <span class="price">$29.99</span>
+                </div>
+            </div>
+            <div class="cart-item">
+                <span>Product 2</span>
+                <div>
+                    <input type="number" id="qty2" value="2" min="1" max="10" data-price="15.99">
+                    <span class="price">$15.99</span>
+                </div>
+            </div>
+            <div class="total" id="subtotal">Subtotal: $61.97</div>
+            
+            <div class="form-group">
+                <label for="discountCode">Discount Code</label>
+                <input type="text" id="discountCode" placeholder="Enter discount code">
+                <button onclick="applyDiscount()" type="button">Apply Discount</button>
+                <div class="error" id="discountError">Invalid discount code</div>
+            </div>
+            
+            <div class="total" id="finalTotal">Total: $61.97</div>
+        </div>
+
+        <!-- User Details Form -->
+        <div class="section">
+            <h2>User Details</h2>
+            <div class="form-group">
+                <label for="name" class="required">Full Name</label>
+                <input type="text" id="name" placeholder="Enter your full name">
+                <div class="error" id="nameError">Name is required (2-50 characters)</div>
+            </div>
+            <div class="form-group">
+                <label for="email" class="required">Email Address</label>
+                <input type="email" id="email" placeholder="Enter your email">
+                <div class="error" id="emailError">Valid email is required</div>
+            </div>
+            <div class="form-group">
+                <label for="address" class="required">Shipping Address</label>
+                <textarea id="address" rows="3" placeholder="Enter your complete shipping address"></textarea>
+                <div class="error" id="addressError">Address is required (10-200 characters)</div>
+            </div>
+        </div>
+
+        <!-- Shipping Method -->
+        <div class="section">
+            <h2>Shipping Method</h2>
+            <div class="radio-group">
+                <label>
+                    <input type="radio" name="shipping" value="standard" checked> Standard Shipping (Free)
+                </label>
+                <label>
+                    <input type="radio" name="shipping" value="express"> Express Shipping ($10.00)
+                </label>
+            </div>
+            <div class="error" id="shippingError">Please select a shipping method</div>
+        </div>
+
+        <!-- Payment Method -->
+        <div class="section">
+            <h2>Payment Method</h2>
+            <div class="radio-group">
+                <label>
+                    <input type="radio" name="payment" value="credit"> Credit Card
+                </label>
+                <label>
+                    <input type="radio" name="payment" value="paypal"> PayPal
+                </label>
+            </div>
+            <div class="error" id="paymentError">Please select a payment method</div>
+        </div>
+
+        <!-- Pay Now Button -->
+        <div class="section">
+            <button id="payButton" onclick="processPayment()">Pay Now</button>
+            <div class="success-message" id="successMessage">Payment Successful!</div>
+        </div>
+    </div>
+
+    <script>
+        let discountApplied = false;
+        let discountRate = 0;
+
+        function calculateTotal() {
+            const qty1 = parseInt(document.getElementById('qty1').value) || 0;
+            const qty2 = parseInt(document.getElementById('qty2').value) || 0;
+            const price1 = 29.99;
+            const price2 = 15.99;
+            
+            let subtotal = (qty1 * price1) + (qty2 * price2);
+            let shipping = document.querySelector('input[name="shipping"]:checked').value === 'express' ? 10.00 : 0;
+            
+            let total = subtotal + shipping;
+            
+            if (discountApplied) {
+                total = total * (1 - discountRate);
+            }
+            
+            document.getElementById('subtotal').textContent = `Subtotal: $${subtotal.toFixed(2)}`;
+            document.getElementById('finalTotal').textContent = `Total: $${total.toFixed(2)}`;
+            
+            validateForm();
+        }
+
+        function applyDiscount() {
+            const code = document.getElementById('discountCode').value.trim().toUpperCase();
+            const errorElement = document.getElementById('discountError');
+            
+            if (code === 'SAVE15') {
+                discountApplied = true;
+                discountRate = 0.15;
+                errorElement.style.display = 'none';
+            } else if (code === 'WELCOME10') {
+                discountApplied = true;
+                discountRate = 0.10;
+                errorElement.style.display = 'none';
+            } else {
+                discountApplied = false;
+                discountRate = 0;
+                errorElement.style.display = 'block';
+            }
+            
+            calculateTotal();
+        }
+
+        function validateForm() {
+            const name = document.getElementById('name').value.trim();
+            const email = document.getElementById('email').value.trim();
+            const address = document.getElementById('address').value.trim();
+            const payButton = document.getElementById('payButton');
+            
+            let isValid = true;
+            
+            // Name validation
+            if (name.length < 2 || name.length > 50) {
+                document.getElementById('nameError').style.display = 'block';
+                isValid = false;
+            } else {
+                document.getElementById('nameError').style.display = 'none';
+            }
+            
+            // Email validation
+            const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+            if (!emailRegex.test(email) || email.length > 100) {
+                document.getElementById('emailError').style.display = 'block';
+                isValid = false;
+            } else {
+                document.getElementById('emailError').style.display = 'none';
+            }
+            
+            // Address validation
+            if (address.length < 10 || address.length > 200) {
+                document.getElementById('addressError').style.display = 'block';
+                isValid = false;
+            } else {
+                document.getElementById('addressError').style.display = 'none';
+            }
+            
+            payButton.disabled = !isValid;
+            return isValid;
+        }
+
+        function processPayment() {
+            if (validateForm()) {
+                document.getElementById('successMessage').style.display = 'block';
+                document.getElementById('payButton').disabled = true;
+            }
+        }
+
+        // Event listeners
+        document.getElementById('qty1').addEventListener('change', calculateTotal);
+        document.getElementById('qty2').addEventListener('change', calculateTotal);
+        document.querySelectorAll('input[name="shipping"]').forEach(radio => {
+            radio.addEventListener('change', calculateTotal);
+        });
+        document.getElementById('name').addEventListener('input', validateForm);
+        document.getElementById('email').addEventListener('input', validateForm);
+        document.getElementById('address').addEventListener('input', validateForm);
+
+        // Initial calculation
+        calculateTotal();
+    </script>
+</body>
+</html>

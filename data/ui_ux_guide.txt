@@ -1,0 +1,20 @@
+UI/UX Guidelines for E-Shop Checkout
+
+Form Styling:
+- Form validation errors must be displayed in red text (#FF0000)
+- Error messages should appear below the respective input fields
+- The "Pay Now" button should be green (#28a745)
+- The "Pay Now" button should be disabled until all form validations pass
+- Success messages should be displayed in green (#28a745)
+
+Layout:
+- Form fields should have proper spacing (margin: 10px)
+- Required fields should be marked with asterisk (*)
+- Radio buttons should be vertically aligned with labels
+- Input fields should have placeholder text indicating expected format
+
+User Feedback:
+- Loading indicator should show during payment processing
+- Success confirmation should display "Payment Successful!" in large green text
+- Cart summary should update in real-time when quantities change
+- Invalid discount code should show "Invalid discount code" error message

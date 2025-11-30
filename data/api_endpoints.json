@@ -1,0 +1,48 @@
+{
+  "endpoints": [
+    {
+      "method": "POST",
+      "path": "/apply_coupon",
+      "description": "Apply discount coupon to order",
+      "parameters": {
+        "code": "string"
+      },
+      "response": {
+        "success": "boolean",
+        "discount_amount": "number",
+        "new_total": "number"
+      }
+    },
+    {
+      "method": "POST",
+      "path": "/submit_order",
+      "description": "Submit final order",
+      "parameters": {
+        "user_details": {
+          "name": "string",
+          "email": "string",
+          "address": "string"
+        },
+        "shipping_method": "string",
+        "payment_method": "string",
+        "items": "array"
+      },
+      "response": {
+        "success": "boolean",
+        "order_id": "string",
+        "message": "string"
+      }
+    },
+    {
+      "method": "GET",
+      "path": "/validate_email",
+      "description": "Validate email format",
+      "parameters": {
+        "email": "string"
+      },
+      "response": {
+        "valid": "boolean"
+      }
+    }
+  ]
+}
