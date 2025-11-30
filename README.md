@@ -1,15 +1,15 @@
-# 🤖 Autonomous QA Agent - RAG Enhanced
+#  Autonomous QA Agent - RAG Enhanced
 
 An intelligent Quality Assurance agent that dynamically generates test cases and Selenium scripts based on project documentation using Retrieval-Augmented Generation (RAG) and semantic search.
 
-## 🚀 Features
+##  Features
 
 ### Core Capabilities
-- **📁 Document Analysis**: Automatically extracts features, workflows, and UI elements from project documentation
-- **🧪 Intelligent Test Generation**: Generates comprehensive test cases using RAG and semantic search
-- **💻 Selenium Script Generation**: Creates executable Selenium WebDriver scripts from test cases
-- **🔍 Semantic Search**: Finds relevant content across documents for context-aware test generation
-- **🎯 Feature Detection**: Identifies key functionalities like login, checkout, search, forms, etc.
+- ** Document Analysis**: Automatically extracts features, workflows, and UI elements from project documentation
+- ** Intelligent Test Generation**: Generates comprehensive test cases using RAG and semantic search
+- ** Selenium Script Generation**: Creates executable Selenium WebDriver scripts from test cases
+- ** Semantic Search**: Finds relevant content across documents for context-aware test generation
+- ** Feature Detection**: Identifies key functionalities like login, checkout, search, forms, etc.
 
 ### Advanced Features
 - **RAG-Enhanced Generation**: Uses document context for grounded, evidence-based test creation
@@ -19,13 +19,13 @@ An intelligent Quality Assurance agent that dynamically generates test cases and
 - **Batch Processing**: Handles multiple test cases and documents simultaneously
 
 
-## 📋 Prerequisites
+##  Prerequisites
 
 - Python 3.8 or higher
 - Chrome Browser (for Selenium execution)
 - ChromeDriver (automatically handled in scripts)
 
-## 🛠️ Installation & Setup
+##  Installation & Setup
 
 ### Step 1: Backend Setup
 
